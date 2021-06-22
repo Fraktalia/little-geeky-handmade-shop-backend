@@ -5,23 +5,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@Table(name = "products")
 public class Product {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String productName;
 
     private String description;
 
@@ -29,6 +27,7 @@ public class Product {
 
     @Override
     public String toString(){
-        return String.format("Product[id=%d, name=%s, price=%d", id, name, price);
+        return String
+                .format("Product[id=%d, name=%s, price=%d", id, productName, price);
     }
 }
