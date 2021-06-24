@@ -2,6 +2,9 @@ package com.wilki.littlegeekyhandmade.product;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +22,23 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{productId}")
-    public Product getProduct(@PathVariable Integer productId) {
-        return productService.getProductById(Long.valueOf(productId));
+    public HttpEntity<Product> getProduct(@PathVariable Integer productId) {
+        return new ResponseEntity<>(productService.getProductById(Long.valueOf(productId)), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{productId}")
+    public HttpEntity<String> deleteProduct(@PathVariable Integer productId){
+        if(productService.deleteProductById(Long.valueOf(productId))){
+            return new ResponseEntity<>("Product has been removed", HttpStatus.NO_CONTENT);
+        }else {
+            return new ResponseEntity<>("Error 404", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/{productId}")
+    public void addProduct(@PathVariable Integer productId){
+        productService.addProduct(productId);
+    }
+
 
 }
