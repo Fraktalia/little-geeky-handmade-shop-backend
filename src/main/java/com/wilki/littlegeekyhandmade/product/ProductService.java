@@ -6,6 +6,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Slf4j
 @AllArgsConstructor
@@ -13,8 +15,13 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public Product getProductById(Long id){
-        return productRepository.findById(id).get();
+    public Product getProductById(Long id) throws NoSuchElementException{
+        Optional<Product> maybeProduct = productRepository.findById(id);
+        if(maybeProduct.isPresent()){
+            return maybeProduct.get();
+        }else {
+            throw new NoSuchElementException("Product not found.");
+        }
     }
 
     public List<Product> getAllProducts() {

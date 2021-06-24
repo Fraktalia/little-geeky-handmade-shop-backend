@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
@@ -22,8 +23,13 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{productId}")
-    public HttpEntity<Product> getProduct(@PathVariable Integer productId) {
-        return new ResponseEntity<>(productService.getProductById(Long.valueOf(productId)), HttpStatus.OK);
+    public HttpEntity<?> getProduct(@PathVariable Integer productId) {
+        try {
+            Product productById = productService.getProductById(Long.valueOf(productId));
+            return new ResponseEntity<>(productById, HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{productId}")
