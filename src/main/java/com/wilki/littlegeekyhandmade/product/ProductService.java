@@ -39,6 +39,7 @@ public class ProductService {
 
     }
 
-    public void addProduct(Integer productId) {
+    public void addProduct(ProductDto productDto) {
+
     }
 }

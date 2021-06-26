@@ -42,8 +42,8 @@ public class ProductController {
     }
 
     @PostMapping("/{productId}")
-    public void addProduct(@PathVariable Integer productId){
-        productService.addProduct(productId);
+    public void addProduct(@PathVariable ProductDto productDto){
+        productService.addProduct(productDto);
     }
 
 
