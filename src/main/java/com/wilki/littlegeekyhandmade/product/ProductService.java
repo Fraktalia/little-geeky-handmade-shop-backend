@@ -39,7 +39,7 @@ public class ProductService {
 
     }
 
-    public void addProduct(ProductDto productDto) {
-
+    public void addProduct(Product product) {
+        productRepository.save(product);
     }
 }

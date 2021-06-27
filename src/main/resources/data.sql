@@ -1,4 +1,4 @@
-INSERT INTO products (product_name, description, price) VALUES
+INSERT INTO products (product_name, product_description, product_price) VALUES
 ('Poro', 'Wielki, włochaty pluszak', 15000),
 ('Miecz', 'Taki pluszowy Hobbita, Żądło', 10000),
 ('Kocie uszy', 'Nie oceniamy', 5000),

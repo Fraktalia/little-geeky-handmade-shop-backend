@@ -1,5 +1,6 @@
 package com.wilki.littlegeekyhandmade.product;
 
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -7,26 +8,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/products")
 @AllArgsConstructor
+@RequestMapping("/api/v1/products")
 public class ProductController {
     private final ProductService productService;
+    private final ProductMapper productMapper;
+
 
     @GetMapping(value = "")
-    public List<Product> getProducts() {
-        return productService.getAllProducts();
+    public HttpEntity<?> getProducts() {
+        ArrayList<ProductDto> productDtoArrayList =
+                productMapper.productListToProductDtoList(productService.getAllProducts());
+        return new ResponseEntity<>(productDtoArrayList, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{productId}")
     public HttpEntity<?> getProduct(@PathVariable Integer productId) {
         try {
             Product productById = productService.getProductById(Long.valueOf(productId));
-            return new ResponseEntity<>(productById, HttpStatus.OK);
+            return new ResponseEntity<>(productMapper.productToProductDto(productById), HttpStatus.OK);
         }catch (NoSuchElementException e){
             return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
         }
@@ -41,9 +47,11 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/{productId}")
-    public void addProduct(@PathVariable ProductDto productDto){
-        productService.addProduct(productDto);
+    @PostMapping("")
+    public void addProduct(@RequestBody ProductDto productDto){
+        Product product = productMapper.productDtoToProduct(productDto);
+        log.info("Recieved Dto: " + product.toString());
+        productService.addProduct(product);
     }
 
 
