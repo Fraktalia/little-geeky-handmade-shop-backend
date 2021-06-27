@@ -42,4 +42,12 @@ public class ProductService {
     public void addProduct(Product product) {
         productRepository.save(product);
     }
+
+    public void updateProduct(Product product, Long productId) {
+        Product updateProduct = productRepository.findById(productId).get();
+        updateProduct.setProductName(product.getProductName());
+        updateProduct.setProductDescription(product.getProductDescription());
+        updateProduct.setProductPrice(product.getProductPrice());
+        productRepository.save(updateProduct);
+    }
 }

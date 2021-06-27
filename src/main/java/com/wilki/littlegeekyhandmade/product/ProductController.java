@@ -54,5 +54,16 @@ public class ProductController {
         productService.addProduct(product);
     }
 
+    @PutMapping("/{productId}")
+    public HttpEntity<String> updateProduct(@RequestBody ProductDto productDto, @PathVariable Integer productId){
+        try {
+            Product product = productMapper.productDtoToProduct(productDto);
+            productService.updateProduct(product, Long.valueOf(productId));
+            return new ResponseEntity<>("Prod has been updated.", HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
 
 }
