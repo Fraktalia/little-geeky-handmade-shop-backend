@@ -23,6 +23,7 @@ public class ProductController {
 
     @GetMapping(value = "")
     public HttpEntity<?> getProducts() {
+        log.info("Panie, działa");
         ArrayList<ProductDto> productDtoArrayList =
                 productMapper.productListToProductDtoList(productService.getAllProducts());
         return new ResponseEntity<>(productDtoArrayList, HttpStatus.OK);
