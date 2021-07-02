@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -22,10 +23,10 @@ public class ProductController {
 
 
     @GetMapping(value = "")
-    public HttpEntity<?> getProducts() {
-        log.info("Panie, działa");
+    public HttpEntity<?> getProducts(@RequestParam Optional<Integer> quantity) {
+        Integer actualQuantity = quantity.orElseGet(() -> 0);
         ArrayList<ProductDto> productDtoArrayList =
-                productMapper.productListToProductDtoList(productService.getAllProducts());
+                productMapper.productListToProductDtoList(productService.getProducts(actualQuantity));
         return new ResponseEntity<>(productDtoArrayList, HttpStatus.OK);
     }
 

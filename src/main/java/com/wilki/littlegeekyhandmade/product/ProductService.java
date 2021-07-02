@@ -28,6 +28,15 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public List<Product> getProducts(Integer quantity) {
+        List<Product> allProducts = getAllProducts();
+        if (quantity == 0) {
+            return allProducts;
+        } else {
+            return allProducts.subList(0, quantity);
+        }
+    }
+
     public boolean deleteProductById(Long productId) {
         try {
             productRepository.deleteById(productId);
