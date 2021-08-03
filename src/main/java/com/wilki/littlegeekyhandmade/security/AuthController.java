@@ -20,13 +20,13 @@ public class AuthController {
     private final UserSecurityService userSecurityService;
     private final JwtUtils jwtUtils;
 
-    @PostMapping(value = "/register", consumes = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "api/v1/register", consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
     public void register(@RequestBody UserDto userDto) {
         userSecurityService.register(userDto);
     }
 
-    @PostMapping(value = "/login", consumes = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "api/v1/login", consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
     public JwtResponse login(@RequestBody CredentialsDto credentialsDto) {
         Authentication authentication = userSecurityService.login(credentialsDto);

@@ -3,6 +3,7 @@ package com.wilki.littlegeekyhandmade.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,9 +38,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/login", "/register").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers(
+                        "/",
+                        "/api/v1/login",
+                        "/api/v1/register",
+                        "/h2-console/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/products/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
 
